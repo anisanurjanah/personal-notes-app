@@ -87,6 +87,7 @@ main {
   text-align: center;
   color: var(--on-background-grey);
 }
+
 .note-item {
   padding: 16px;
   border-radius: 8px;

@@ -6,7 +6,7 @@ function Navigation() {
         <nav className="navigation">
             <ul>
                 <li>
-                    <Link to="/archieve">Archieve</Link>
+                    <Link to="/archive">Archive</Link>
                 </li>
             </ul>
             

@@ -1,11 +1,15 @@
 import React from 'react';
 import PropType from 'prop-types';
+import { Link } from 'react-router-dom';
+import { showFormattedDate } from '../utils/index.js';
 
-function NoteItem({title, createdAt, body}) {
+function NoteItem({id, title, createdAt, body}) {
     return (
         <div className="note-item">
-            <h2 className="note-item__title">{title}</h2>
-            <p className="note-item__createdAt">{createdAt}</p>
+            <h3 className="note-item__title">
+                <Link to={`/notes/${id}`}>{title}</Link>
+            </h3>
+            <p className="note-item__createdAt">{showFormattedDate(createdAt)}</p>
             <p className="note-item__body">{body}</p>
         </div>
     );
