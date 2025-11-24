@@ -1,5 +1,5 @@
 import React from 'react';
-import { getNote, deleteNote, archiveNote } from '../utils/local-data.js';
+import { getNote, deleteNote, archiveNote, unarchiveNote } from '../utils/local-data.js';
 import { useParams, useNavigate } from 'react-router-dom';
 
 import NoteDetail from '../components/NoteDetail.jsx';
@@ -22,6 +22,7 @@ class DetailPage extends React.Component {
 
     this.onDeleteHandler = this.onDeleteHandler.bind(this);
     this.onArchiveHandler = this.onArchiveHandler.bind(this);
+    this.onUnarchiveHandler = this.onUnarchiveHandler.bind(this);
   }
 
   onDeleteHandler(id) {
@@ -41,7 +42,15 @@ class DetailPage extends React.Component {
     const { navigate } = this.props;
 
     archiveNote(id);
-    if (navigate) navigate('/archived');
+    if (navigate) navigate('/archives');
+
+    this.setState(() => ({
+      note: getNote(this.props.id)
+    }));
+  }
+
+  onUnarchiveHandler(id) {
+    unarchiveNote(id);
 
     this.setState(() => ({
       note: getNote(this.props.id)
@@ -49,14 +58,20 @@ class DetailPage extends React.Component {
   }
 
   render() {
-    if (this.state.note === null) {
-      return <p>Note is not found!</p>;
-    }
+    const note = this.state.note;
+
+    if (!note) return <p>Note is not found!</p>;
 
     return (
       <section>
         <NoteDetail {...this.state.note} />
-        <NoteDetailButton id={this.props.id} onArchive={this.onArchiveHandler} onDelete={this.onDeleteHandler} />
+        <NoteDetailButton
+          id={this.props.id}
+          archived={note.archived}
+          onArchive={this.onArchiveHandler}
+          onUnarchive={this.onUnarchiveHandler}
+          onDelete={this.onDeleteHandler}
+        />
       </section>
     );
   }

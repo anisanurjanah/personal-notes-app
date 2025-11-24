@@ -1,12 +1,11 @@
 import React from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { getAllNotes } from '../utils/local-data.js';
+import { getArchivedNotes } from '../utils/local-data.js';
 
-import NoteAddButton from '../components/NoteAddButton.jsx';
 import NoteList from '../components/NoteList.jsx';
 import SearchBar from '../components/SearchBar';
 
-function HomePageWrapper() {
+function ArchivePageWrapper() {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const keyword = searchParams.get('keyword');
@@ -15,15 +14,15 @@ function HomePageWrapper() {
     setSearchParams({ keyword });
   }
 
-  return <HomePage defaultKeyword={keyword} keywordChange={changeSearchParams} />
+  return <ArchivePage defaultKeyword={keyword} keywordChange={changeSearchParams} />
 }
 
-class HomePage extends React.Component {
+class ArchivePage extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      notes: getAllNotes(),
+      notes: getArchivedNotes(),
       keyword: props.defaultKeyword || '',
     }
 
@@ -49,13 +48,12 @@ class HomePage extends React.Component {
 
     return (
       <section>
-        <h2>Active Notes</h2>
+        <h2>Archive Notes</h2>
         <SearchBar keyword={this.state.keyword} keywordChange={this.onKeywordChangeHandler} />
-        <NoteList notes={notes} isArchive={false} />
-        <NoteAddButton />
+        <NoteList notes={notes} isArchive={true} />
       </section>
     )
   }
 }
 
-export default HomePageWrapper;
+export default ArchivePageWrapper;

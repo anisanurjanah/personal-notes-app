@@ -27,7 +27,7 @@ class NoteInput extends React.Component {
   onBodyChangeEventHandler(event) {
     this.setState(() => {
       return {
-        body: event.target.value,
+        body: event.target.innerHTML,
       }
     });
   }
@@ -41,7 +41,7 @@ class NoteInput extends React.Component {
    return (
      <form id="note-form" className='add-new-page__input' onSubmit={this.onSubmitEventHandler}>
        <input type="text" className='add-new-page__input__title' placeholder="Title" value={this.state.title} onChange={this.onTitleChangeEventHandler} />
-       <textarea type="text" className='add-new-page__input__body' placeholder="Body" value={this.state.body} onChange={this.onBodyChangeEventHandler} />
+       <div className="add-new-page__input__body" data-placeholder="Start typing.." onInput={this.onBodyChangeEventHandler} contentEditable />
        <NoteAddButton />
      </form>
    )
