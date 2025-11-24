@@ -2,7 +2,7 @@ import React from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { getAllNotes } from '../utils/local-data.js';
 
-import AddButton from '../components/AddButton.jsx';
+import NoteAddButton from '../components/NoteAddButton.jsx';
 import NoteList from '../components/NoteList.jsx';
 import SearchBar from '../components/SearchBar';
 
@@ -52,7 +52,7 @@ class HomePage extends React.Component {
         <h2>Active Notes</h2>
         <SearchBar keyword={this.state.keyword} keywordChange={this.onKeywordChangeHandler} />
         <NoteList notes={notes} />
-        <AddButton />
+        <NoteAddButton />
       </section>
     )
   }

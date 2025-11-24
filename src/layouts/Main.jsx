@@ -10,9 +10,9 @@ function Main() {
       <main>
         <Routes>
           <Route path="/" element={<HomePage />} />
-          <Route path="/add-page" element={<AddPage />} />
+          <Route path="/new-note" element={<AddPage />} />
           <Route path="/notes/:id" element={<DetailPage />} />
-          {/* <Route path="/archive" element={<ArchivePage />} /> */}
+          {/* <Route path="/archived" element={<ArchivePage />} /> */}
         </Routes>
       </main>
   );

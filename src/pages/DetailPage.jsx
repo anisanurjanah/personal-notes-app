@@ -1,13 +1,15 @@
 import React from 'react';
-import { getNote, deleteNote } from '../utils/local-data.js';
-import { useParams } from 'react-router-dom';
+import { getNote, deleteNote, archiveNote } from '../utils/local-data.js';
+import { useParams, useNavigate } from 'react-router-dom';
 
 import NoteDetail from '../components/NoteDetail.jsx';
-import DetailButton from '../components/DetailButton.jsx';
+import NoteDetailButton from '../components/NoteDetailButton.jsx';
 
 function DetailPageWrapper() {
   const { id } = useParams();
-  return <DetailPage id={id} />;
+  const navigate = useNavigate();
+
+  return <DetailPage id={id} navigate={navigate} />;
 }
 
 class DetailPage extends React.Component {
@@ -19,16 +21,31 @@ class DetailPage extends React.Component {
     };
 
     this.onDeleteHandler = this.onDeleteHandler.bind(this);
+    this.onArchiveHandler = this.onArchiveHandler.bind(this);
   }
 
   onDeleteHandler(id) {
+    const { navigate } = this.props;
+
     deleteNote(id);
+    if (navigate) navigate('/');
 
     this.setState(() => {
       return {
-        note: getNote(props.id)
+        note: getNote(this.props.id)
       }
     });
+  }
+
+  onArchiveHandler(id) {
+    const { navigate } = this.props;
+
+    archiveNote(id);
+    if (navigate) navigate('/archived');
+
+    this.setState(() => ({
+      note: getNote(this.props.id)
+    }));
   }
 
   render() {
@@ -39,7 +56,7 @@ class DetailPage extends React.Component {
     return (
       <section>
         <NoteDetail {...this.state.note} />
-        <DetailButton onDelete={this.onDeleteHandler} />
+        <NoteDetailButton id={this.props.id} onArchive={this.onArchiveHandler} onDelete={this.onDeleteHandler} />
       </section>
     );
   }

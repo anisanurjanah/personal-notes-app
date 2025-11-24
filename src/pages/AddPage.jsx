@@ -1,20 +1,19 @@
 import React from 'react';
-// import { addContact } from '../utils/data';
-// import ContactInput from '../components/ContactInput';
 import { useNavigate } from 'react-router-dom';
+import { addNote } from '../utils/local-data.js';
+import NoteInput from '../components/NoteInput.jsx';
 
 function AddPage() {
   const navigate = useNavigate();
 
-//   function onAddContactHandler(contact) {
-//     addContact(contact);
-//     navigate('/');
-//   }
+  function onAddNoteHandler(note) {
+    addNote(note);
+    navigate('/');
+  }
 
   return (
     <section>
-      <h2>Tambah kontak</h2>
-      {/* <ContactInput addContact={onAddContactHandler} /> */}
+      <NoteInput addNote={onAddNoteHandler} />
     </section>
   )
 }
