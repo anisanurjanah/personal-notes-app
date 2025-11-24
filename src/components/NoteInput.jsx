@@ -41,7 +41,7 @@ class NoteInput extends React.Component {
    return (
      <form id="note-form" className='add-new-page__input' onSubmit={this.onSubmitEventHandler}>
        <input type="text" className='add-new-page__input__title' placeholder="Title" value={this.state.title} onChange={this.onTitleChangeEventHandler} />
-       <div className="add-new-page__input__body" data-placeholder="Start typing.." onInput={this.onBodyChangeEventHandler} contentEditable />
+       <div className="add-new-page__input__body" data-placeholder="Start typing.." onInput={this.onBodyChangeEventHandler} contentEditable></div>
        <NoteAddButton />
      </form>
    )

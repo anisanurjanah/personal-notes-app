@@ -1,5 +1,6 @@
 import React from 'react';
 import PropType from 'prop-types';
+import parser from 'html-react-parser';
 import { showFormattedDate } from '../utils/index.js';
 
 function NoteDetail({ title, createdAt, body }) {
@@ -7,7 +8,7 @@ function NoteDetail({ title, createdAt, body }) {
     <div className="detail-page">
         <h2 className="detail-page__title">{title}</h2>
         <p className="detail-page__createdAt">{showFormattedDate(createdAt)}</p>
-        <p className="detail-page__body">{body}</p>
+        <p className="detail-page__body">{parser(body)}</p>
     </div>
   );
 }
