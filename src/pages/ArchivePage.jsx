@@ -1,6 +1,7 @@
 import React from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { getArchivedNotes } from '../utils/local-data.js';
+// import { getArchivedNotes } from '../utils/local-data.js';
+import { getArchivedNotes } from '../utils/network-data.js';
 
 import NoteList from '../components/NoteList.jsx';
 import SearchBar from '../components/SearchBar';
@@ -22,11 +23,23 @@ class ArchivePage extends React.Component {
     super(props);
 
     this.state = {
-      notes: getArchivedNotes(),
+      notes: [],
       keyword: props.defaultKeyword || '',
+      loading: true,
     }
 
     this.onKeywordChangeHandler = this.onKeywordChangeHandler.bind(this);
+  }
+
+  async componentDidMount() {
+    const { data } = await getArchivedNotes();
+    
+    this.setState(() => {
+      return {
+        notes: data,
+        loading: false,
+      }
+    })
   }
 
   onKeywordChangeHandler(keyword) {
@@ -40,17 +53,18 @@ class ArchivePage extends React.Component {
   }
 
   render() {
-    const notes = this.state.notes.filter((note) => {
-      return note.title.toLowerCase().includes(
-        this.state.keyword.toLowerCase()
-      );
+    const { notes, keyword, loading } = this.state;
+    if (loading) return <p>Loading...</p>;
+
+    const filteredNotes = notes.filter((note) => {
+      return note.title.toLowerCase().includes(keyword.toLowerCase());
     });
 
     return (
       <section>
         <h2>Archive Notes</h2>
-        <SearchBar keyword={this.state.keyword} keywordChange={this.onKeywordChangeHandler} />
-        <NoteList notes={notes} isArchive={true} />
+        <SearchBar keyword={keyword} keywordChange={this.onKeywordChangeHandler} />
+        <NoteList notes={filteredNotes} isArchive={true} />
       </section>
     )
   }

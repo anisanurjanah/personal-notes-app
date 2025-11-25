@@ -1,5 +1,5 @@
 import React from 'react';
-import PropType from 'prop-types';
+import PropTypes from 'prop-types';
 import parser from 'html-react-parser';
 import { showFormattedDate } from '../utils/index.js';
 
@@ -13,10 +13,10 @@ function NoteDetail({ title, createdAt, body }) {
   );
 }
 
-NoteDetail.prototype = {
-    title: PropType.string.isRequired,
-    createdAt: PropType.string.isRequired,
-    body: PropType.string.isRequired
+NoteDetail.propTypes = {
+  title: PropTypes.string.isRequired,
+  createdAt: PropTypes.string.isRequired,
+  body: PropTypes.string.isRequired,
 };
 
 export default NoteDetail;

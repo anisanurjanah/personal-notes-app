@@ -1,6 +1,7 @@
 import React from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { getAllNotes } from '../utils/local-data.js';
+// import { getAllNotes } from '../utils/local-data.js';
+import { getActiveNotes } from '../utils/network-data.js';
 
 import NoteAddButton from '../components/NoteAddButton.jsx';
 import NoteList from '../components/NoteList.jsx';
@@ -30,9 +31,14 @@ class HomePage extends React.Component {
     this.onKeywordChangeHandler = this.onKeywordChangeHandler.bind(this);
   }
 
-  componentDidMount() {
-    const notes = getAllNotes();
-    this.setState({ notes });
+  async componentDidMount() {
+    const { data } = await getActiveNotes();
+    
+    this.setState(() => {
+      return {
+        notes: data
+      }
+    })
   }
 
   onKeywordChangeHandler(keyword) {

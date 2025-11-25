@@ -1,5 +1,6 @@
 import React from 'react';
-import { getNote, deleteNote, archiveNote, unarchiveNote } from '../utils/local-data.js';
+// import { getNote, deleteNote, archiveNote, unarchiveNote } from '../utils/local-data.js';
+import { getNote, deleteNote, archiveNote, unarchiveNote } from '../utils/network-data.js';
 import { useParams, useNavigate } from 'react-router-dom';
 
 import NoteDetail from '../components/NoteDetail.jsx';
@@ -17,7 +18,8 @@ class DetailPage extends React.Component {
     super(props);
 
     this.state = {
-      note: getNote(props.id)
+      note: null,
+      loading: true
     };
 
     this.onDeleteHandler = this.onDeleteHandler.bind(this);
@@ -25,46 +27,48 @@ class DetailPage extends React.Component {
     this.onUnarchiveHandler = this.onUnarchiveHandler.bind(this);
   }
 
-  onDeleteHandler(id) {
-    const { navigate } = this.props;
+  async componentDidMount() {
+    const response = await getNote(this.props.id);
 
-    deleteNote(id);
-    if (navigate) navigate('/');
-
-    this.setState(() => {
-      return {
-        note: getNote(this.props.id)
-      }
+    this.setState({
+      note: response.data,
+      loading: false
     });
   }
 
-  onArchiveHandler(id) {
+  async onDeleteHandler(id) {
     const { navigate } = this.props;
 
-    archiveNote(id);
-    if (navigate) navigate('/archives');
-
-    this.setState(() => ({
-      note: getNote(this.props.id)
-    }));
+    await deleteNote(id);
+    navigate('/');
   }
 
-  onUnarchiveHandler(id) {
-    unarchiveNote(id);
+  async onArchiveHandler(id) {
+    const { navigate } = this.props;
 
-    this.setState(() => ({
-      note: getNote(this.props.id)
-    }));
+    await archiveNote(id);
+    navigate('/archives');
+  }
+
+  async onUnarchiveHandler(id) {
+    await unarchiveNote(id);
+
+    const response = await getNote(this.props.id);
+
+    this.setState({
+      note: response.data
+    });
   }
 
   render() {
-    const note = this.state.note;
+    const { note, loading } = this.state;
 
+    if (loading) return <p>Loading...</p>;
     if (!note) return <p>Note is not found!</p>;
 
     return (
       <section>
-        <NoteDetail {...this.state.note} />
+        <NoteDetail {...note} />
         <NoteDetailButton
           id={this.props.id}
           archived={note.archived}
