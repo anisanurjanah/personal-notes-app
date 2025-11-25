@@ -15,7 +15,7 @@ function Main({ authedUser, loginSuccess }) {
     return (
       <main>
         <Routes>
-          <Route path="/*" element={<LoginPage loginSuccess={loginSuccess} />} /> 
+          <Route path="/*" element={<LoginPage loginSuccess={loginSuccess} />} />
           <Route path="/register" element={<RegisterPage />} />
         </Routes>
       </main>

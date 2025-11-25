@@ -2,13 +2,11 @@ import React from 'react';
 import Navigation from '../components/Navigation.jsx';
 import { Link } from 'react-router-dom';
 
-function Header({ authedUser }) {
+function Header({ authedUser, logout, name }) {
   return (
       <header>
-        <h1>
-          <Link Link to="/">MyNotes</Link>
-        </h1>
-        {authedUser !== null ? <Navigation /> : null}
+        <h1><Link Link to="/">MyNotes</Link></h1>
+        {authedUser !== null ? <Navigation logout={logout} name={name} /> : null}
       </header>
   );
 }

@@ -13,6 +13,7 @@ class App extends React.Component {
     };
 
     this.onLoginSuccess = this.onLoginSuccess.bind(this);
+    this.onLogout = this.onLogout.bind(this);
   }
 
   async onLoginSuccess({ accessToken }) {
@@ -35,14 +36,23 @@ class App extends React.Component {
     });
   }
 
+  onLogout() {
+    this.setState(() => {
+      return {
+        authedUser: null
+      }
+    });
+    putAccessToken('');
+  }
+
   render() {
     if (this.state.initializing) {
       return null;
     }
-    
+
     return (
       <div className="contact-app">
-        <Header authedUser={this.state.authedUser} />
+        <Header authedUser={this.state.authedUser} logout={this.onLogout} name={this.state.authedUser?.name} />
         <Main authedUser={this.state.authedUser} loginSuccess={this.onLoginSuccess} />
       </div>
     );
