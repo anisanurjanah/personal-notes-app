@@ -26,6 +26,7 @@ class HomePage extends React.Component {
     this.state = {
       notes: [],
       keyword: props.defaultKeyword || '',
+      loading: true,
     }
 
     this.onKeywordChangeHandler = this.onKeywordChangeHandler.bind(this);
@@ -36,7 +37,8 @@ class HomePage extends React.Component {
     
     this.setState(() => {
       return {
-        notes: data
+        notes: data,
+        loading: false,
       }
     })
   }
@@ -52,17 +54,18 @@ class HomePage extends React.Component {
   }
 
   render() {
-    const notes = this.state.notes.filter((note) => {
-      return note.title.toLowerCase().includes(
-        this.state.keyword.toLowerCase()
-      );
+    const { notes, keyword, loading } = this.state;
+    if (loading) return <p>Loading...</p>;
+
+    const filteredNotes = notes.filter((note) => {
+      return note.title.toLowerCase().includes(keyword.toLowerCase());
     });
 
     return (
       <section>
         <h2>Active Notes</h2>
-        <SearchBar keyword={this.state.keyword} keywordChange={this.onKeywordChangeHandler} />
-        <NoteList notes={notes} isArchive={false} />
+        <SearchBar keyword={keyword} keywordChange={this.onKeywordChangeHandler} />
+        <NoteList notes={filteredNotes} isArchive={false} />
         <NoteAddButton />
       </section>
     )

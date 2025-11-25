@@ -2,12 +2,14 @@ import React from "react";
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { FiLogOut } from 'react-icons/fi';
+import ToggleTheme from './ToggleTheme.jsx';
 
 function Navigation({ logout, name }) {
     return (
         <nav className="navigation">
             <ul>
                 <li><Link to="/archives">Archives</Link></li>
+                <li><ToggleTheme /></li>
                 <li><button onClick={logout}>{name} <FiLogOut /></button></li>
             </ul>
         </nav>
