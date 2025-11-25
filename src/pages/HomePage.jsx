@@ -23,11 +23,16 @@ class HomePage extends React.Component {
     super(props);
 
     this.state = {
-      notes: getAllNotes(),
+      notes: [],
       keyword: props.defaultKeyword || '',
     }
 
     this.onKeywordChangeHandler = this.onKeywordChangeHandler.bind(this);
+  }
+
+  componentDidMount() {
+    const notes = getAllNotes();
+    this.setState({ notes });
   }
 
   onKeywordChangeHandler(keyword) {
