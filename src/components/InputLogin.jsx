@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import useInput from '../hooks/useInput.jsx';
 
-function InputLogin({ onSubmit }) {
+function InputLogin({ onSubmit, language }) {
   const [email, onEmailChange] = useInput('');
   const [password, onPasswordChange] = useInput('');
 
@@ -17,7 +17,7 @@ function InputLogin({ onSubmit }) {
       <input type="email" id="email" value={email} onChange={onEmailChange} />
       <label htmlFor="password">Password</label>
       <input type="password" id="password" value={password} onChange={onPasswordChange} />
-      <button type="submit">Login</button>
+      <button type="submit">{language === 'id' ? 'Masuk' : 'Login'}</button>
     </form>
   );
 }

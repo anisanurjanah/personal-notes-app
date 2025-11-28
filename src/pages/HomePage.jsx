@@ -7,7 +7,7 @@ import NoteAddButton from '../components/NoteAddButton.jsx';
 import NoteList from '../components/NoteList.jsx';
 import SearchBar from '../components/SearchBar';
 
-function HomePageWrapper() {
+function HomePageWrapper({ language }) {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const keyword = searchParams.get('keyword');
@@ -16,7 +16,7 @@ function HomePageWrapper() {
     setSearchParams({ keyword });
   }
 
-  return <HomePage defaultKeyword={keyword} keywordChange={changeSearchParams} />
+  return <HomePage defaultKeyword={keyword} keywordChange={changeSearchParams} language={language} />
 }
 
 class HomePage extends React.Component {
@@ -55,6 +55,8 @@ class HomePage extends React.Component {
 
   render() {
     const { notes, keyword, loading } = this.state;
+    const { language } = this.props;
+
     if (loading) return <p>Loading...</p>;
 
     const filteredNotes = notes.filter((note) => {
@@ -63,8 +65,8 @@ class HomePage extends React.Component {
 
     return (
       <section>
-        <h2>Active Notes</h2>
-        <SearchBar keyword={keyword} keywordChange={this.onKeywordChangeHandler} />
+        <h2>{language === 'id' ? 'Catatan Aktif' : 'Active Notes'}</h2>
+        <SearchBar keyword={keyword} keywordChange={this.onKeywordChangeHandler} language={language} />
         <NoteList notes={filteredNotes} isArchive={false} />
         <NoteAddButton />
       </section>

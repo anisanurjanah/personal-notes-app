@@ -10,14 +10,14 @@ import HomePage from '../pages/HomePage.jsx';
 import LoginPage from '../pages/LoginPage.jsx';
 import RegisterPage from '../pages/RegisterPage.jsx';
 
-function Main({ authedUser, loginSuccess }) {
+function Main({ authedUser, loginSuccess, language }) {
   if (authedUser === null) {
     return (
       <main>
         <Routes>
-          <Route path="/login" element={<LoginPage loginSuccess={loginSuccess} />} />
-          <Route path="/register" element={<RegisterPage />} />
-          <Route path="*" element={<LoginPage loginSuccess={loginSuccess} />} />
+          <Route path="/login" element={<LoginPage loginSuccess={loginSuccess} language={language} />} />
+          <Route path="/register" element={<RegisterPage language={language} />} />
+          <Route path="*" element={<LoginPage loginSuccess={loginSuccess} language={language} />} />
         </Routes>
       </main>
     );
@@ -26,10 +26,10 @@ function Main({ authedUser, loginSuccess }) {
   return (
       <main>
         <Routes>
-          <Route path="/" element={<HomePage />} />
+          <Route path="/" element={<HomePage language={language} />} />
           <Route path="/new-note" element={<AddPage />} />
           <Route path="/notes/:id" element={<DetailPage />} />
-          <Route path="/archives" element={<ArchivePage />} />
+          <Route path="/archives" element={<ArchivePage language={language} />} />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </main>

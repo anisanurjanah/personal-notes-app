@@ -2,6 +2,7 @@ import React from 'react';
 import Header from './layouts/Header.jsx';
 import Main from './layouts/Main.jsx';
 import { ThemeProvider } from './contexts/ThemeContext';
+import { LocaleProvider } from './contexts/LocaleContext.js';
 import { getUserLogged, putAccessToken } from './utils/network-data.js';
 
 class App extends React.Component {
@@ -18,6 +19,19 @@ class App extends React.Component {
           localStorage.setItem('theme', newTheme);
           return { theme: newTheme };
         });
+      },
+      localeContext: {
+        locale: 'id',
+        toggleLocale: () => {
+          this.setState((prevState) => {
+            return {
+              localeContext: {
+                ...prevState.localeContext,
+                locale: prevState.localeContext.locale === 'id' ? 'en' : 'id'
+              }
+            }
+          })
+        }
       }
     };
 
@@ -67,12 +81,14 @@ class App extends React.Component {
     }
 
     return (
-      <ThemeProvider value={this.state}>
-        <div className="contact-app">
-          <Header authedUser={this.state.authedUser} logout={this.onLogout} name={this.state.authedUser?.name} />
-          <Main authedUser={this.state.authedUser} loginSuccess={this.onLoginSuccess} />
-        </div>
-      </ThemeProvider>
+      <LocaleProvider value={this.state.localeContext}>
+        <ThemeProvider value={this.state}>
+          <div className="contact-app">
+            <Header authedUser={this.state.authedUser} logout={this.onLogout} name={this.state.authedUser?.name} language={this.state.localeContext.locale} />
+            <Main authedUser={this.state.authedUser} loginSuccess={this.onLoginSuccess} language={this.state.localeContext.locale} />
+          </div>
+        </ThemeProvider>
+      </LocaleProvider>
     );
   }
 }

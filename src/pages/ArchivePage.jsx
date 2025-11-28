@@ -6,7 +6,7 @@ import { getArchivedNotes } from '../utils/network-data.js';
 import NoteList from '../components/NoteList.jsx';
 import SearchBar from '../components/SearchBar';
 
-function ArchivePageWrapper() {
+function ArchivePageWrapper({ language }) {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const keyword = searchParams.get('keyword');
@@ -15,7 +15,7 @@ function ArchivePageWrapper() {
     setSearchParams({ keyword });
   }
 
-  return <ArchivePage defaultKeyword={keyword} keywordChange={changeSearchParams} />
+  return <ArchivePage defaultKeyword={keyword} keywordChange={changeSearchParams} language={language} />
 }
 
 class ArchivePage extends React.Component {
@@ -54,6 +54,8 @@ class ArchivePage extends React.Component {
 
   render() {
     const { notes, keyword, loading } = this.state;
+    const { language } = this.props;
+
     if (loading) return <p>Loading...</p>;
 
     const filteredNotes = notes.filter((note) => {
@@ -62,8 +64,8 @@ class ArchivePage extends React.Component {
 
     return (
       <section>
-        <h2>Archive Notes</h2>
-        <SearchBar keyword={keyword} keywordChange={this.onKeywordChangeHandler} />
+        <h2>{language === 'id' ? 'Catatan Arsip' : 'Archive Notes'}</h2>
+        <SearchBar keyword={keyword} keywordChange={this.onKeywordChangeHandler} language={language} />
         <NoteList notes={filteredNotes} isArchive={true} />
       </section>
     )
